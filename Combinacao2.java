@@ -123,13 +123,13 @@ public class Combinacao2 {
             //printArray (array);
           }
         }
-
+/*
         else if (posAtual < k - 1 && array[posAtual] >= n - posAtual) {
           reset (array, posAtual, k);
           return;
         }
-
-        else if (posAtual == k - 1 && array[posAtual] <= n) {
+*/
+        else if (posAtual == k - 1) {
           for (int i = array[posAtual]; i < n; i++) {
             array[posAtual]++;
             printArray (array);
