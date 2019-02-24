@@ -117,6 +117,7 @@ public class Combinacao2 {
             increment (array, posAtual, k);
             printComb (array, ++posAtual, n, k);
             reset (array, posAtual, k);
+            StdOut.println("k");
           }
         }
 /*
