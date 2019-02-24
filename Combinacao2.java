@@ -116,8 +116,8 @@ public class Combinacao2 {
           for (int i = 0; i < n - posAtual; i++) {
             increment (array, posAtual, k);
             printComb (array, ++posAtual, n, k);
+            reset (array, posAtual, k);
           }
-          reset (array, posAtual, k);
         }
 /*
         else if (posAtual < k - 1 && array[posAtual] >= n - posAtual) {
