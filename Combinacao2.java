@@ -116,8 +116,7 @@ public class Combinacao2 {
           for (int i = array[posAtual - 1]; i < n - posAtual; i++) {
             increment (array, posAtual, k);
             printComb (array, ++posAtual, n, k);
-            reset (array, posAtual, k);
-            StdOut.println("\n" "\n");
+            StdOut.println("\n\n");
             printArray (array);
           }
         }
