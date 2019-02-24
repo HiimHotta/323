@@ -5,19 +5,19 @@
     Ao preencher esse cabecalho com o meu nome e o meu numero USP,
     declaro que todas as partes originais desse exercicio programa (EP)
     foram desenvolvidas e implementadas por mim e que portanto nao
-    constituem desonestidade acadêmica ou plagio.
+    constituem desonestidade academica ou plagio.
     Declaro tambem que sou responsavel por todas as copias desse
     programa e que nao distribui ou facilitei a sua distribuicao.
-    Estou ciente que os casos de plagio e desonestidade acadêmica
+    Estou ciente que os casos de plagio e desonestidade academica
     serao tratados segundo os criterios divulgados na pagina da
     disciplina.
     Entendo que EPs sem assinatura devem receber nota zero e, ainda
-    assim, poderao ser punidos por desonestidade acadêmica.
+    assim, poderao ser punidos por desonestidade academica.
 
-    Abaixo descreva qualquer ajuda que você recebeu para fazer este
+    Abaixo descreva qualquer ajuda que voce recebeu para fazer este
     EP.  Inclua qualquer ajuda recebida por pessoas (inclusive
     monitoras e colegas). Com excecao de material de MAC0323, caso
-    você tenha utilizado alguma informacao, trecho de codigo,...
+    voce tenha utilizado alguma informacao, trecho de codigo,...
     indique esse fato abaixo para que o seu programa nao seja
     considerado plagio ou irregular.
 
