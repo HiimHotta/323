@@ -129,7 +129,7 @@ public class Combinacao2 {
           return;
         }
 
-        else if (posAtual == k - 1 && array[posAtual] < n) {
+        else if (posAtual == k - 1 && array[posAtual] <= n) {
           for (int i = array[posAtual]; i < n; i++) {
             array[posAtual]++;
             printArray (array);
