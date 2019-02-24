@@ -2,37 +2,37 @@
     Nome: Daniel Yoshio Hotta
     NUSP: 9922700
 
-    Ao preencher esse cabeçalho com o meu nome e o meu número USP,
-    declaro que todas as partes originais desse exercício programa (EP)
-    foram desenvolvidas e implementadas por mim e que portanto não
-    constituem desonestidade acadêmica ou plágio.
-    Declaro também que sou responsável por todas as cópias desse
-    programa e que não distribui ou facilitei a sua distribuição.
-    Estou ciente que os casos de plágio e desonestidade acadêmica
-    serão tratados segundo os critérios divulgados na página da
+    Ao preencher esse cabecalho com o meu nome e o meu numero USP,
+    declaro que todas as partes originais desse exercicio programa (EP)
+    foram desenvolvidas e implementadas por mim e que portanto nao
+    constituem desonestidade acadêmica ou plagio.
+    Declaro tambem que sou responsavel por todas as copias desse
+    programa e que nao distribui ou facilitei a sua distribuicao.
+    Estou ciente que os casos de plagio e desonestidade acadêmica
+    serao tratados segundo os criterios divulgados na pagina da
     disciplina.
     Entendo que EPs sem assinatura devem receber nota zero e, ainda
-    assim, poderão ser punidos por desonestidade acadêmica.
+    assim, poderao ser punidos por desonestidade acadêmica.
 
     Abaixo descreva qualquer ajuda que você recebeu para fazer este
     EP.  Inclua qualquer ajuda recebida por pessoas (inclusive
-    monitoras e colegas). Com exceção de material de MAC0323, caso
-    você tenha utilizado alguma informação, trecho de código,...
-    indique esse fato abaixo para que o seu programa não seja
-    considerado plágio ou irregular.
+    monitoras e colegas). Com excecao de material de MAC0323, caso
+    você tenha utilizado alguma informacao, trecho de codigo,...
+    indique esse fato abaixo para que o seu programa nao seja
+    considerado plagio ou irregular.
 
     Exemplo:
 
-        A monitora me explicou que eu devia utilizar a função xyz().
+        A monitora me explicou que eu devia utilizar a funcao xyz().
 
-        O meu método xyz() foi baseada na descrição encontrada na
-        página https://www.ime.usp.br/~pf/algoritmos/aulas/enumeracao.html.
+        O meu metodo xyz() foi baseada na descricao encontrada na
+        pagina https://www.ime.usp.br/~pf/algoritmos/aulas/enumeracao.html.
 
-    Descrição de ajuda ou indicação de fonte:
+    Descricao de ajuda ou indicacao de fonte:
 
     Nada.
 
-    Se for o caso, descreva a seguir 'bugs' e limitações do seu programa:
+    Se for o caso, descreva a seguir 'bugs' e limitacoes do seu programa:
 
 ****************************************************************/
 
@@ -40,11 +40,11 @@
  *  Compilation:  javac-algs4 Combinacao.java
  *  Execution:    java Combinacao n k [opcao]
  *
- *  Enumera todas as combinações dos números em {1,2,...,n} k a k.
- *  Se opcao = 0 (defaul), gera e exibe todas as permutações em ordem
- *  lexicográfica
- *  Se opcao = 1 apenas, __gera todas__ as combinações, mas __não__ as
- *  exibe; apenas exibe o total de combinações.
+ *  Enumera todas as combinacoes dos numeros em {1,2,...,n} k a k.
+ *  Se opcao = 0 (defaul), gera e exibe todas as permutacoes em ordem
+ *  lexicografica
+ *  Se opcao = 1 apenas, __gera todas__ as combinacoes, mas __nao__ as
+ *  exibe; apenas exibe o total de combinacoes.
  *
  * % java Combinacao 5 3 1
  * 10
@@ -75,12 +75,12 @@
 //import edu.princeton.cs.algs4.Stopwatch;
 
 public class Combinacao {
-    private static int count = 0; // contador de combinações
+    private static int count = 0; // contador de combinacoes
     private static int opcao = 0;
     private static int[] array;
 
-        // 0 imprimir as combinações e o número de combinações (default)
-        // 1 imprimir apenas o número de combinações
+        // 0 imprimir as combinacoes e o numero de combinacoes (default)
+        // 1 imprimir apenas o numero de combinacoes
     public static void printArray (int[] array) {
         count++;
         if (opcao == 1)
