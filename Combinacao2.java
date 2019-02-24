@@ -117,13 +117,14 @@ public class Combinacao2 {
             increment (array, posAtual, k);
             printComb (array, ++posAtual, n, k);
           }
+          reset (array, posAtual, k);
         }
-
+/*
         else if (posAtual < k - 1 && array[posAtual] >= n - posAtual) {
           reset (array, posAtual, k);
           return;
         }
-
+*/
         else if (posAtual == k - 1 && array[posAtual] < n) {
           for (int i = array[posAtual]; i < n; i++) {
             array[posAtual]++;
