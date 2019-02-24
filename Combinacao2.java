@@ -102,6 +102,9 @@ public class Combinacao2 {
     }
 
     public static void printComb (int[] array, int posAtual, int n, int k) {
+        StdOut.println();
+        printArray (array);
+        StdOut.println();
         if (posAtual == k)
           return;
 
@@ -142,7 +145,8 @@ public class Combinacao2 {
         }
 */
         else
-          StdOut.println("ue");
+            return;
+          //printArray (array);
     }
 
 
