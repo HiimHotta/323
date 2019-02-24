@@ -145,8 +145,8 @@ public class Combinacao2 {
         }
 */
         else
-            return;
-          //printArray (array);
+          StdOut.print("Falhou: ");            
+          printArray (array);
     }
 
 
