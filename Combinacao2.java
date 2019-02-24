@@ -130,16 +130,20 @@ public class Combinacao {
         }
 
         else if (posAtual == k - 1 && array[posAtual] < n) {
-          array[posAtual]++;
-          printArray (array);
-          return;
-        }
-
-        else if (posAtual == k - 1 && array[posAtual] == n) {
+          for (int i = array[posAtual]; i <= n; i++) {
+            array[posAtual]++;
+            printArray (array);
+          }
           reset (array, posAtual, k);
           return;
         }
-
+/*
+        else if (posAtual == k - 1 && array[posAtual] == n) {
+          reset (array, posAtual, k);
+          printArray (array);
+          return;
+        }
+*/
         else
           return;
     }
