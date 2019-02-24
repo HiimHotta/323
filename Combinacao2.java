@@ -102,7 +102,7 @@ public class Combinacao2 {
     }
 
     public static void printComb (int[] array, int posAtual, int n, int k) {
-        StdOut.print(Teste);
+        StdOut.print("Teste: ");
         printArray (array);
         if (posAtual == k)
           return;
@@ -122,12 +122,12 @@ public class Combinacao2 {
             //printArray (array);
           }
         }
-/*
+
         else if (posAtual < k - 1 && array[posAtual] >= n - posAtual) {
           reset (array, posAtual, k);
           return;
         }
-*/
+
         else if (posAtual == k - 1 && array[posAtual] < n) {
           for (int i = array[posAtual]; i < n; i++) {
             array[posAtual]++;
