@@ -74,7 +74,7 @@
 //import edu.princeton.cs.algs4.StdOut;
 //import edu.princeton.cs.algs4.Stopwatch;
 
-public class Combinacao {
+public class Combinacao2 {
     private static int count = 0; // contador de combinacoes
     private static int opcao = 0;
     private static int[] array;
@@ -105,18 +105,12 @@ public class Combinacao {
         if (posAtual == k)
           return;
 
-        if (posAtual == 0 && array[posAtual] > n - k)
-          return;
-
         if (posAtual == 0 && array[0] == 0) {
           for (int i = 0; i <= n - k; i++) {
             increment (array, posAtual, k);
             printComb (array, 1, n, k);
           }
         }
-
-        else if (posAtual == 0)
-          return;
 
         else if (posAtual < k - 1 && array[posAtual] < n - posAtual) {
           for (int i = 0; i < n - posAtual; i++) 
@@ -130,7 +124,7 @@ public class Combinacao {
         }
 
         else if (posAtual == k - 1 && array[posAtual] < n) {
-          for (int i = array[posAtual]; i <= n; i++) {
+          for (int i = array[posAtual]; i < n; i++) {
             array[posAtual]++;
             printArray (array);
           }
@@ -149,21 +143,21 @@ public class Combinacao {
     }
 
 
-    public static void combinacao(int n, int k) {
+    public static void combinacao (int n, int k) {
         array = new int[k];
         printComb (array, 0, n, k);
     }
 
 
-    public static void main(String[] args) {
-        int n = Integer.parseInt(args[0]);
-        int k = Integer.parseInt(args[1]);
+    public static void main (String[] args) {
+        int n = Integer.parseInt (args[0]);
+        int k = Integer.parseInt (args[1]);
         if (args.length == 3) {
-            opcao = Integer.parseInt(args[2]);
+            opcao = Integer.parseInt (args[2]);
         }
-        Stopwatch timer = new Stopwatch();
-        combinacao(n, k);
-        StdOut.println(count);
-        StdOut.println("elapsed time = " + timer.elapsedTime());
+        Stopwatch timer = new Stopwatch ();
+        combinacao (n, k);
+        StdOut.println (count);
+        StdOut.println ("elapsed time = " + timer.elapsedTime ());
     }
 }
