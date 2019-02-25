@@ -104,7 +104,7 @@ public class Combinacao2 {
     public static void printComb (int[] array, int posAtual, int n, int k) {
         StdOut.print("Teste: ");
         printArray (array);
-        if (posAtual == k)
+        if (posAtual >= k)
           return;
 
         if (posAtual == 0 && array[0] == 0) {
@@ -145,9 +145,10 @@ public class Combinacao2 {
           return;
         }
 */
-        else
+        else {
           StdOut.print("Falhou: ");            
           printArray (array);
+        }
     }
 
 
