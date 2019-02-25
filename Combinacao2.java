@@ -106,6 +106,7 @@ public class Combinacao2 {
           return;
 
         if (posAtual == 0 && array[0] == 0) {
+          StdOut.println("AAAAAAAAAAH");
           for (int i = 0; i <= n - k; i++) {
             increment (array, posAtual, k);
             printComb (array, 1, n, k);
@@ -113,7 +114,7 @@ public class Combinacao2 {
         }
 
         else if (posAtual < k - 1) {
-          StdOut.print("KK"); 
+          StdOut.println("KK"); 
           for (int i = array[posAtual]; i <= n - k + posAtual + 1; i++) {
             increment (array, posAtual, k);
             printComb (array, ++posAtual, n, k);
