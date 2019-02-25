@@ -116,7 +116,7 @@ public class Combinacao2 {
 
         //else if (posAtual < k - 1 && array[posAtual] < n - posAtual) {
         else if (posAtual < k - 1) {
-          for (int i = posAtual; i < n - posAtual; i++) {
+          for (int i = 0; i < n - k - posAtual + 1; i++) {
             increment (array, posAtual, k);
             printComb (array, ++posAtual, n, k);
             //StdOut.println("\n\n");
