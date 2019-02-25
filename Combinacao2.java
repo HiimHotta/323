@@ -112,22 +112,15 @@ public class Combinacao2 {
           }
         }
 
-        //else if (posAtual < k - 1 && array[posAtual] < n - posAtual) {
         else if (posAtual < k - 1) {
+          StdOut.print("KK"); 
           for (int i = array[posAtual]; i <= n - k + posAtual + 1; i++) {
             increment (array, posAtual, k);
             printComb (array, ++posAtual, n, k);
-            //StdOut.println("\n\n");
-            //printArray (array);
           }
           reset (array, posAtual, k);
         }
-/*
-        else if (posAtual < k - 1 && array[posAtual] >= n - posAtual) {
-          reset (array, posAtual, k);
-          return;
-        }
-*/
+
         else if (posAtual == k - 1) {
           for (int i = array[posAtual]; i < n; i++) {
             array[posAtual]++;
@@ -137,13 +130,7 @@ public class Combinacao2 {
           StdOut.println("FIM");
           return;
         }
-/*
-        else if (posAtual == k - 1 && array[posAtual] == n) {
-          reset (array, posAtual, k);
-          printArray (array);
-          return;
-        }
-*/
+
         else {
           StdOut.print("Falhou: ");            
           printArray (array);
