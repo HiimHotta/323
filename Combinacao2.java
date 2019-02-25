@@ -102,8 +102,10 @@ public class Combinacao2 {
     }
 
     public static void printComb (int[] array, int posAtual, int n, int k) {
-        if (posAtual >= k)
+        if (posAtual >= k) {
+          StdOut.println("FUCK");
           return;
+        }
 
         if (posAtual == 0 && array[0] == 0) {
           StdOut.println("AAAAAAAAAAH");
@@ -115,9 +117,10 @@ public class Combinacao2 {
 
         else if (posAtual < k - 1) {
           StdOut.println("KK"); 
+          increment (array, posAtual, k);
           for (int i = array[posAtual]; i <= n - k + posAtual + 1; i++) {
-            increment (array, posAtual, k);
             printComb (array, ++posAtual, n, k);
+            increment (array, posAtual, k);
           }
           reset (array, posAtual, k);
         }
@@ -137,6 +140,7 @@ public class Combinacao2 {
           printArray (array);
           return;
         }
+        return;
     }
 
 
