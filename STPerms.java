@@ -79,7 +79,7 @@ public class STPerms {
 
     else if (contador == 0) 
       for (int i = 0; i < n - s; i++)
-        if (!TestS (vetor, 0, i, 1))
+        if (!TestS (vetor, i, i + 1, 1))
           return false; 
 
     //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
@@ -88,7 +88,7 @@ public class STPerms {
 
     else if (vetor [anterior] < vetor [atual]) 
       for (int j = atual; i < n; i++)
-        if (!TestS (vetor, atua1, i, contador + 1))
+        if (!TestS (vetor, atual, i, contador + 1))
           return false;
 
     return true;
@@ -100,7 +100,7 @@ public class STPerms {
 
     else if (contador == 0) 
       for (int i = 0; i < n - t; i++)
-        if (!TestS (vetor, 0, i, 1))
+        if (!TestS (vetor, i, i + 1, 1))
           return false; 
 
     //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
