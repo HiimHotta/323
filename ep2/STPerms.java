@@ -65,7 +65,7 @@ public class STPerms {
   public static void PermST (String s) {
     char[] aux = s.toCharArray ();
 
-    if (TestS (aux, 0, 0) == 1 && TestT (aux) == 1)
+    if (TestS (aux, 0, 0, 0) && TestT (aux, 0, 0, 0))
       StdOut.println (s);
   }
 
@@ -74,9 +74,9 @@ public class STPerms {
     if (count > s)
       return false;
 
-    else if (anterior == 0 && atual == 0) 
+    else if (count == 0) 
       for (int i = 0; i < n - s; i++)
-        if (!TestS (vetor, 0, i, 0))
+        if (!TestS (vetor, 0, i, 1))
           return false; 
 
     //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
@@ -95,9 +95,9 @@ public class STPerms {
     if (count > t)
       return false;
 
-    else if (anterior == 0 && atual == 0) 
+    else if (count == 0) 
       for (int i = 0; i < n - t; i++)
-        if (!TestS (vetor, 0, i, 0))
+        if (!TestS (vetor, 0, i, 1))
           return false; 
 
     //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
