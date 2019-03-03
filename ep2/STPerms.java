@@ -1,7 +1,6 @@
 /****************************************************************
     Nome: Daniel Yoshio Hotta
     NUSP: 9922700
-
     Ao preencher esse cabeçalho com o meu nome e o meu número USP,
     declaro que todas as partes originais desse exercício programa (EP)
     foram desenvolvidas e implementadas por mim e que portanto não
@@ -13,13 +12,8 @@
     disciplina.
     Entendo que EPs sem assinatura devem receber nota zero e, ainda
     assim, poderão ser punidos por desonestidade acadêmica.
-
     Descrição de ajuda ou indicação de fonte:
-
-
-
     Se for o caso, descreva a seguir 'bugs' e limitações do seu programa:
-
 ****************************************************************/
 
 /******************************************************************************
@@ -69,12 +63,54 @@ public class STPerms {
   }
 
   public static void PermST (String s) {
-    String[] aux = s.split ("");
-    String[] tmp = new String[s];
+    char[] aux = s.toCharArray ();
 
-    if (TestS () && TestT ())
+    if (TestS (aux, 0, 0) == 1 && TestT (aux) == 1)
       StdOut.println (s);
   }
+
+  //
+  private static boolean TestS (char[] vetor, int anterior, int atual, int count) {    
+    if (count > s)
+      return false;
+
+    else if (anterior == 0 && atual == 0) 
+      for (int i = 0; i < n - s; i++)
+        if (!TestS (vetor, 0, i, 0))
+          return false; 
+
+    //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
+    else if (vetor[anterior] > vetor[atual])
+      return true;
+
+    else if (vetor [anterior] < vetor [atual]) 
+      for (int i = atual; i < n; i++)
+        if (!TestS (vetor, atua1, i, count + 1))
+          return false;
+
+    return true;
+  }
+
+  private static int TestT (char[] vetor, int anterior, int atual) {
+    if (count > t)
+      return false;
+
+    else if (anterior == 0 && atual == 0) 
+      for (int i = 0; i < n - t; i++)
+        if (!TestS (vetor, 0, i, 0))
+          return false; 
+
+    //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
+    else if (vetor[anterior] < vetor[atual])
+      return true;
+
+    else if (vetor [anterior] > vetor [atual]) 
+      for (int i = atual; i < n; i++)
+        if (!TestS (vetor, atua1, i, count + 1))
+          return false;
+
+    return true;
+  }  
 
   // swap the characters at indices i and j
   private static void swap(char[] a, int i, int j) {
