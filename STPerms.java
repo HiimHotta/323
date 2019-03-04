@@ -63,7 +63,7 @@ public class STPerms {
   }
 
   public static void PermST (String s) {
-    char[] aux = s.toCharArray ();
+    String[] aux = s.split ("");
 
     if (TestS (aux, 0, 0, 0) && TestT (aux, 0, 0, 0)) {
       if (opcao == 0) 
@@ -73,7 +73,7 @@ public class STPerms {
   }
 
   //
-  private static boolean TestS (char[] vetor, int anterior, int atual, int contador) {    
+  private static boolean TestS (String[] vetor, int anterior, int atual, int contador) {    
     StdOut.println (vetor[anterior] + " " + vetor[atual]);
 
     if (contador > s)
@@ -85,29 +85,17 @@ public class STPerms {
           if (!TestS (vetor, i, j, 1))
             return false; 
 
-    else if (vetor [anterior] < vetor [atual]) {
+    else if (vetor [anterior].compareTo (vetor [atual]) < 0) {
       StdOut.println ("k");
       for (int k = 1; k <= n - atual; k++) {
         if (!TestS (vetor, atual, atual + k, contador + 1))
           return false;
-        StdOut.println (contador);
       }
     }
-
-    else {
-      if (vetor[anterior] == vetor[atual]) {
-        StdOut.println ("igual");
-      }
-      if (vetor[anterior] > vetor[atual]) {
-        StdOut.println ("maior");
-      }
-      if (vetor[anterior] < vetor[atual]) {
-        StdOut.println ("maior");
-      }
-    }
+    return true;
   }
 
-  private static boolean TestT (char[] vetor, int anterior, int atual, int contador) {
+  private static boolean TestT (String[] vetor, int anterior, int atual, int contador) {
     if (contador > t)
       return false;
 
@@ -117,7 +105,7 @@ public class STPerms {
           if (!TestT (vetor, i, j, 1))
             return false; 
 
-    else if (vetor [anterior] > vetor [atual]) 
+    else if (vetor [anterior].compareTo (vetor [atual]) > 0) 
       for (int k = 1; k <= n - atual; k++)
         if (!TestT (vetor, atual, atual + k, contador + 1))
           return false;
