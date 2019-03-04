@@ -74,6 +74,8 @@ public class STPerms {
 
   //
   private static boolean TestS (char[] vetor, int anterior, int atual, int contador) {    
+    StdOut.println (vetor[anterior] + " " + vetor[atual]);
+
     if (contador > s)
       return false;
 
@@ -83,9 +85,7 @@ public class STPerms {
           if (!TestS (vetor, i, j, 1))
             return false; 
 
-    StdOut.println (vetor[anterior] + vetor[atual]);
-
-    else if (vetor [anterior] < vetor [atual]) {
+    else if (vetor [anterior].compareTo (vetor [atual]) < 0) {
       StdOut.println ("k");
       for (int k = 1; k <= n - atual; k++) {
         if (!TestS (vetor, atual, atual + k, contador + 1))
@@ -107,7 +107,7 @@ public class STPerms {
           if (!TestT (vetor, i, j, 1))
             return false; 
 
-    else if (vetor [anterior] > vetor [atual]) 
+    else if (vetor [anterior].compareTo (vetor [atual]) > 0) 
       for (int k = 1; k <= n - atual; k++)
         if (!TestT (vetor, atual, atual + k, contador + 1))
           return false;
