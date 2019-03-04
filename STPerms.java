@@ -82,13 +82,9 @@ public class STPerms {
         if (!TestS (vetor, i, i + 1, 1))
           return false; 
 
-    //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
-    else if (vetor[anterior] > vetor[atual])
-      return true;
-
     else if (vetor [anterior] < vetor [atual]) 
-      for (int j = atual; i < n; i++)
-        if (!TestS (vetor, atual, i, contador + 1))
+      for (int j = atual; j < n; j++)
+        if (!TestS (vetor, atual, j, contador + 1))
           return false;
 
     return true;
@@ -103,13 +99,9 @@ public class STPerms {
         if (!TestT (vetor, i, i + 1, 1))
           return false; 
 
-    //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
-    else if (vetor[anterior] < vetor[atual])
-      return true;
-
     else if (vetor [anterior] > vetor [atual]) 
-      for (int j = atual; i < n; i++)
-        if (!TestT (vetor, atual, i, contador + 1))
+      for (int j = atual; j < n; j++)
+        if (!TestT (vetor, atual, j, contador + 1))
           return false;
 
     return true;
