@@ -83,12 +83,14 @@ public class STPerms {
           if (!TestS (vetor, i, j, 1))
             return false; 
 
-    else if (vetor [anterior] < vetor [atual]) 
+    else if (vetor [anterior] < vetor [atual]) {
       for (int k = 1; k <= n - atual; k++) {
         if (!TestS (vetor, atual, atual + k, contador + 1))
           return false;
         StdOut.println (contador);
       }
+      StdOut.println ("k");
+    }
 
     return true;
   }
