@@ -95,7 +95,7 @@ public class STPerms {
     else if (vetor [anterior] > vetor [atual])
       StdOut.println ("krl");
     else if (vetor [anterior] == vetor [atual])
-      StdOut.println ("PORRA");    
+      StdOut.println ("PORRA" + vetor[anterior] + vetor[atual]);    
     return true;
   }
 
