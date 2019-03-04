@@ -13,7 +13,12 @@
     Entendo que EPs sem assinatura devem receber nota zero e, ainda
     assim, poderão ser punidos por desonestidade acadêmica.
     Descrição de ajuda ou indicação de fonte:
+
+    USei o perm1 do coelho.
+    Conversei a ideia geral do algoritmo com rafael gonçalvez
+
     Se for o caso, descreva a seguir 'bugs' e limitações do seu programa:
+    Testado aos 23:51 do domingo, sem tempo haha xD
 ****************************************************************/
 
 /******************************************************************************
@@ -40,12 +45,12 @@
  *
  ******************************************************************************/
 
-//import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdOut;
 
 public class STPerms {
   private static int count = 0; // contador de combinacoes
   private static int opcao = 0;
-  private static int[] array;
+  private static char[] array;
   private static int n, s, t;
 
   public  static void perm1(String s) {
@@ -55,59 +60,70 @@ public class STPerms {
   private static void perm1(String prefix, String s) {
     int n = s.length();
     if (n == 0)
-      PermST(prefix);
+      PermST (prefix);
 
     else
       for (int i = 0; i < n; i++)
-        perm1(prefix + s.charAt(i), s.substring(0, i) + s.substring(i + 1, n));
+        perm1 (prefix + s.charAt (i), s.substring (0, i) + s.substring (i + 1, n));
   }
 
+
+  //Testa a propriedade permst
   public static void PermST (String s) {
-    char[] aux = s.toCharArray ();
+    array = s.toCharArray ();
 
-    if (TestS (aux, 0, 0, 0) && TestT (aux, 0, 0, 0))
-      StdOut.println (s);
+    if (TestS (array, 0, 0, 0) && TestT (array, 0, 0, 0)) {
+      if (opcao != 1) 
+        StdOut.println (s);
+      count++;
+    }
   }
 
-  //
-  private static boolean TestS (char[] vetor, int anterior, int atual, int count) {    
-    if (count > s)
+  //testa propriedade ate achar uma sequencia crescente maior que S, se nao achar retorna true
+  private static boolean TestS (char[] vetor, int anterior, int atual, int contador) {    
+    if (contador > s)
       return false;
 
-    else if (count == 0) 
+    else if (contador == 0) 
       for (int i = 0; i < n - s; i++)
-        if (!TestS (vetor, 0, i, 1))
-          return false; 
+        for (int j = i + 1; j < n - s + 1; j++) {
+          if (!TestS (vetor, i, j, 1))
+            return false; 
+        }
 
-    //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
-    else if (vetor[anterior] > vetor[atual])
-      return true;
-
-    else if (vetor [anterior] < vetor [atual]) 
-      for (int i = atual; i < n; i++)
-        if (!TestS (vetor, atua1, i, count + 1))
+    else if (vetor [anterior] < vetor [atual]) {
+      if (contador + 1 > s) 
+        return false;
+      
+      for (int k = 1; k < n - atual; k++) {
+        if (!TestS (vetor, atual, atual + k, contador + 1))
           return false;
-
+      }
+    }
     return true;
   }
 
-  private static int TestT (char[] vetor, int anterior, int atual) {
-    if (count > t)
+  //analogo ao anterior, soh que com sequencia decrescente de tamanho no maximo t
+  private static boolean TestT (char[] vetor, int anterior, int atual, int contador) {
+    if (contador > t)
       return false;
 
-    else if (count == 0) 
-      for (int i = 0; i < n - t; i++)
-        if (!TestS (vetor, 0, i, 1))
-          return false; 
+    else if (contador == 0) 
+      for (int i = 0; i < n - t; i++) {
+        for (int j = i + 1; j < n - t + 1; j++) {
+          if (!TestT (vetor, i, j, 1))
+            return false; 
+        }
+      }
 
-    //na verdade desnecessário, mas pra ficar mais facil de visualizar a ideia
-    else if (vetor[anterior] < vetor[atual])
-      return true;
+    else if (vetor [anterior] > vetor [atual]) {
+      if (contador + 1 > t) 
+        return false;
 
-    else if (vetor [anterior] > vetor [atual]) 
-      for (int i = atual; i < n; i++)
-        if (!TestS (vetor, atua1, i, count + 1))
+      for (int k = 1; k < n - atual; k++)
+        if (!TestT (vetor, atual, atual + k, contador + 1))
           return false;
+    }
 
     return true;
   }  
@@ -141,13 +157,11 @@ public class STPerms {
     if (args.length == 4)
       opcao = Integer.parseInt (args[3]);
 
-    Stopwatch timer = new Stopwatch ();
-
     String alphabet = "abcdefghijklmnopqrstuvwxyz";
     String elements = alphabet.substring(0, n);
     perm1(elements);
-    //SP (n, s, t, );
-    StdOut.println (count);
-    StdOut.println ("elapsed time = " + timer.elapsedTime ());
+
+    if (opcao > 0)
+      StdOut.println (count);
   }
 }
