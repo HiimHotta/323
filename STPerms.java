@@ -45,7 +45,7 @@
 public class STPerms {
   private static int count = 0; // contador de combinacoes
   private static int opcao = 0;
-  private static String[] array;
+  private static char[] array;
   private static int n, s, t;
 
   public  static void perm1(String s) {
@@ -63,7 +63,7 @@ public class STPerms {
   }
 
   public static void PermST (String s) {
-    array = s.split ("");
+    array = s.toCharArray ();
 
     if (TestS (array, 0, 0, 0) && TestT (array, 0, 0, 0)) {
       if (opcao == 0) 
@@ -73,7 +73,7 @@ public class STPerms {
   }
 
   //
-  private static boolean TestS (String[] vetor, int anterior, int atual, int contador) {    
+  private static boolean TestS (char[] vetor, int anterior, int atual, int contador) {    
     StdOut.println (vetor[anterior] + " " + vetor[atual]);
 
     if (contador > s)
@@ -85,19 +85,21 @@ public class STPerms {
           if (!TestS (vetor, i, j, 1))
             return false; 
 
-    else if (vetor [anterior].compareTo (vetor [atual]) < 0) {
+    else if (vetor [anterior] < vetor [atual]) {
       StdOut.println ("k");
       for (int k = 1; k <= n - atual; k++) {
         if (!TestS (vetor, atual, atual + k, contador + 1))
           return false;
       }
     }
-    else 
+    else if (vetor [anterior] > vetor [atual])
       StdOut.println ("krl");
+    else if (vetor [anterior] == vetor [atual])
+      StdOut.println ("PORRA");    
     return true;
   }
 
-  private static boolean TestT (String[] vetor, int anterior, int atual, int contador) {
+  private static boolean TestT (char[] vetor, int anterior, int atual, int contador) {
     if (contador > t)
       return false;
 
@@ -107,7 +109,7 @@ public class STPerms {
           if (!TestT (vetor, i, j, 1))
             return false; 
 
-    else if (vetor [anterior].compareTo (vetor [atual]) > 0) 
+    else if (vetor [anterior] > vetor [atual]) 
       for (int k = 1; k <= n - atual; k++)
         if (!TestT (vetor, atual, atual + k, contador + 1))
           return false;
