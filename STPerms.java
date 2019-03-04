@@ -74,14 +74,13 @@ public class STPerms {
 
   //
   private static boolean TestS (char[] vetor, int anterior, int atual, int contador) {    
-    StdOut.println (vetor[anterior] + " " + vetor[atual]);
-
     if (contador > s)
       return false;
 
     else if (contador == 0) 
       for (int i = 0; i < n - s; i++)
         for (int j = i + 1; j < n - s + 1; j++)
+          StdOut.println (vetor[anterior] + " " + vetor[atual]);
           if (!TestS (vetor, i, j, 1))
             return false; 
 
