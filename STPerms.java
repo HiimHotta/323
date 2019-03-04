@@ -91,10 +91,6 @@ public class STPerms {
           return false;
       }
     }
-    else if (vetor [anterior] > vetor [atual])
-      StdOut.println ("krl");
-    else if (vetor [anterior] == vetor [atual])
-      StdOut.println ("PORRA" + vetor[anterior] + vetor[atual] + contador);    
     return true;
   }
 
@@ -103,10 +99,12 @@ public class STPerms {
       return false;
 
     else if (contador == 0) 
-      for (int i = 0; i < n - t; i++)
-        for (int j = i + 1; j < n - t + 1; j++)
+      for (int i = 0; i < n - t; i++) {
+        for (int j = i + 1; j < n - t + 1; j++) {
           if (!TestT (vetor, i, j, 1))
             return false; 
+        }
+      }
 
     else if (vetor [anterior] > vetor [atual]) 
       for (int k = 1; k <= n - atual; k++)
