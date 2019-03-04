@@ -45,7 +45,7 @@
 public class STPerms {
   private static int count = 0; // contador de combinacoes
   private static int opcao = 0;
-  private static int[] array;
+  private static String[] array;
   private static int n, s, t;
 
   public  static void perm1(String s) {
@@ -63,9 +63,9 @@ public class STPerms {
   }
 
   public static void PermST (String s) {
-    String[] aux = s.split ("");
+    array = s.split ("");
 
-    if (TestS (aux, 0, 0, 0) && TestT (aux, 0, 0, 0)) {
+    if (TestS (array, 0, 0, 0) && TestT (array, 0, 0, 0)) {
       if (opcao == 0) 
         StdOut.println (s);
       count++;
@@ -92,6 +92,8 @@ public class STPerms {
           return false;
       }
     }
+    else 
+      StdOut.println ("krl");
     return true;
   }
 
