@@ -79,10 +79,10 @@ public class STPerms {
 
     else if (contador == 0) 
       for (int i = 0; i < n - s; i++)
-        for (int j = i + 1; j < n - s + 1; j++)
-          StdOut.println (vetor[anterior] + " " + vetor[atual]);
+        for (int j = i + 1; j < n - s + 1; j++) {
           if (!TestS (vetor, i, j, 1))
             return false; 
+        }
 
     else if (vetor [anterior] < vetor [atual]) {
       StdOut.println ("k");
