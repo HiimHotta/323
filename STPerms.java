@@ -66,7 +66,7 @@ public class STPerms {
     array = s.toCharArray ();
 
     if (TestS (array, 0, 0, 0) && TestT (array, 0, 0, 0)) {
-      if (opcao == 0) 
+      if (opcao != 1) 
         StdOut.println (s);
       count++;
     }
