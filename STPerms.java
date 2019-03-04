@@ -85,8 +85,10 @@ public class STPerms {
         }
 
     else if (vetor [anterior] < vetor [atual]) {
-      StdOut.println ("k");
-      for (int k = 1; k <= n - atual; k++) {
+      if (contador + 1 > s) 
+        return false;
+      
+      for (int k = 1; k < n - atual; k++) {
         if (!TestS (vetor, atual, atual + k, contador + 1))
           return false;
       }
@@ -106,10 +108,14 @@ public class STPerms {
         }
       }
 
-    else if (vetor [anterior] > vetor [atual]) 
-      for (int k = 1; k <= n - atual; k++)
+    else if (vetor [anterior] > vetor [atual]) {
+      if (contador + 1 > t) 
+        return false;
+
+      for (int k = 1; k < n - atual; k++)
         if (!TestT (vetor, atual, atual + k, contador + 1))
           return false;
+    }
 
     return true;
   }  
