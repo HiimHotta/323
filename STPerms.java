@@ -55,11 +55,11 @@ public class STPerms {
   private static void perm1(String prefix, String s) {
     int n = s.length();
     if (n == 0)
-      PermST(prefix);
+      PermST (prefix);
 
     else
       for (int i = 0; i < n; i++)
-        perm1(prefix + s.charAt(i), s.substring(0, i) + s.substring(i + 1, n));
+        perm1 (prefix + s.charAt (i), s.substring (0, i) + s.substring (i + 1, n));
   }
 
   public static void PermST (String s) {
@@ -84,9 +84,11 @@ public class STPerms {
             return false; 
 
     else if (vetor [anterior] < vetor [atual]) 
-      for (int k = 1; k < n - atual; k++)
+      for (int k = 1; k <= n - atual; k++) {
         if (!TestS (vetor, atual, atual + k, contador + 1))
           return false;
+        StdOut.println (contador);
+      }
 
     return true;
   }
@@ -102,7 +104,7 @@ public class STPerms {
             return false; 
 
     else if (vetor [anterior] > vetor [atual]) 
-      for (int k = 1; k < n - atual; k++)
+      for (int k = 1; k <= n - atual; k++)
         if (!TestT (vetor, atual, atual + k, contador + 1))
           return false;
 
