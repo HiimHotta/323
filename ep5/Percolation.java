@@ -66,23 +66,23 @@ public class Percolation {
     private void connectGrid (int row, int col) {
       if (row - 1 >= 0)
         if (grid[row - 1][col] == 1)
-          union (n * (row - 1) + col, n * row + col);
+          uf.union (n * (row - 1) + col, n * row + col);
       if (col - 1 >= 0)
         if (grid[row][col - 1] == 1)
-          union (n * row + col - 1  , n * row + col);
+          uf.union (n * row + col - 1  , n * row + col);
       if (row + 1 < n)
         if (grid[row + 1][col] == 1)
-          union (n * (row + 1) + col, n * row + col);
+          uf.union (n * (row + 1) + col, n * row + col);
       if (col + 1 < n)
         if (grid[row][col + 1] == 1)
-          union (n * row + col + 1  , n * row + col);
+          uf.union (n * row + col + 1  , n * row + col);
     }
 
     // is the site (row, col) open?
     public boolean isOpen (int row, int col) {
       if (row < 0 || row >= n || col < 0 || col >= n)
         throw new IllegalArgumentException ("Linha ou Coluna invalida.");
-      return grid[row]col] > 0;
+      return grid[row][col] > 0;
     }
 
     // is the site (row, col) full?
@@ -104,22 +104,22 @@ public class Percolation {
           if (uf.connected (i, n * (n - 1) + j))
             return true;
         }
+      return false;
     }
 
     // unit testing (required)
     public static void main (String[] args) {
-        int n = args[0];
-        WeightedQuickUnionUF uf = new WeightedQuickUnionUF (n);
+        int n = Integer.parseInt (args[0]);
+        Percolation perco = new Percolation (n);
         while (!StdIn.isEmpty ()) {
           int p = StdIn.readInt ();
           int q = StdIn.readInt ();
-          if (uf.connected (p, q)) 
+          if (perco.isOpen (p, q)) 
             continue;
-          uf.union (p, q);
+          perco.open (p, q);
           StdOut.println (p + " " + q);
         }
-        StdOut.println (uf.count () + " components");
-        StdOut.println ("Percolates:" + uf.percolates ())
+        StdOut.println (perco.numberOfOpenSites () + " components");
+        StdOut.println ("Percolates:" + perco.percolates ());
     }
-
 }
