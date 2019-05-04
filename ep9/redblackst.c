@@ -11,9 +11,9 @@
 
 /* interface para o uso da funcao deste mÃ³dulo */
 #include "redblackst.h"  
-#include <stdlib.h>  /* free() */
-#include <string.h>  /* memcpy() */
-#include "util.h"    /* emalloc(), ecalloc() */
+#include <stdlib.h>      /* free() */
+#include <string.h>      /* memcpy() */
+#include "util.h"        /* emalloc(), ecalloc() */
 
 #undef DEBUG
 #ifdef DEBUG
@@ -35,10 +35,10 @@ typedef struct node Node;
 
 struct node {
         void *key;           // key
-        void *val;         // associated data
+        void *val;           // associated data
         Node *left, *right;  // links to left and right subtrees
-        Bool color;     // color of parent link
-        int size;          // subtree count
+        Bool color;          // color of parent link
+        int size;            // subtree count
 };
 
 //"construtor"
@@ -61,6 +61,7 @@ Node *newNode (void *key, void *val, Node *left, Node *right, Bool color, int si
  */
 struct redBlackST {
     Node *root;
+    int (*compareTo)(const void *key1, const void *key2)
 };
 
 /*------------------------------------------------------------*/
@@ -75,6 +76,32 @@ struct redBlackST {
  *  is23(), isBalanced().
  *
  */
+
+/***************************************************************************
+*  Red-black tree helper functions.
+***************************************************************************/
+
+static Bool isRed (Node *node);
+
+// make a left-leaning link lean to the right
+static Node *rotateRight (Node *h);
+
+// make a right-leaning link lean to the left
+static Node *rotateLeft (Node *h);
+
+// flip the colors of a node and its two children
+static void flipColors (Node *h);
+
+// Assuming that h is red and both h.left and h.left.left
+// are black, make h.left or one of its children red.
+static Node moveRedLeft (Node *h);
+
+    // Assuming that h is red and both h.right and h.right.left
+    // are black, make h.right or one of its children red.
+static Node moveRedRight(Node h);
+
+// restore red-black tree invariant
+static Node balance(Node h);
 
 /*---------------------------------------------------------------*/
 static Bool isBST(RedBlackST st);
@@ -109,7 +136,9 @@ static Bool isBalanced(RedBlackST st);
  * 
  */
 RedBlackST initST (int (*compar)(const void *key1, const void *key2)) {
-    return NULL;
+    RedBlackST st = emalloc (sizeof (RedBlackST));
+    st.root = NULL;
+    st.compareTo = compar;
 }
 
 /*-----------------------------------------------------------*/
@@ -150,14 +179,14 @@ void freeST (RedBlackST st) {
  */
 
 // insert the key-value pair in the subtree rooted at h
-Node *auxPut (Node *h, const void *key, const void *val) { 
+Node *auxPut (RedBlackST st, Node *h, const void *key, const void *val) { 
     if (h == NULL) 
         return newNode (key, val, NULL, NULL, BLACK, 1);
     
-    int cmp = strCmp (h->key, key);
-    if (cmp != 0)       h->size++;
-    if      (cmp < 0) h->left  = auxPut (h->left,  key, val); 
-    else if (cmp > 0) h->right = auxPut (h->right, key, val); 
+    int cmp = st->compareTo (h->key, key);
+    if (cmp != 0)     h->size++;
+    if      (cmp < 0) h->left  = auxPut (st, h->left,  key, val); 
+    else if (cmp > 0) h->right = auxPut (st, h->right, key, val); 
     else              h->val   = val;
 
         // fix-up any right-leaning links
@@ -197,10 +226,10 @@ void put (RedBlackST st, const void *key, size_t sizeKey, const void *val, size_
  *     - se KEY nÃ£o estÃ¡ em ST, RETORNA NULL.
  * 
  */
-void *get(RedBlackST st, const void *key) {
+void *get (RedBlackST st, const void *key) {
     Node *n = st->root;
     while (n != NULL) {
-        int cmp = strCmp (n->key, key);
+        int cmp = st->compareTo (n->key, key);
         if      (cmp < 0) n = n->left;
         else if (cmp > 0) n = n->right;
         else              return n->val;
@@ -217,7 +246,7 @@ void *get(RedBlackST st, const void *key) {
  *  RETORNA TRUE se KEY estÃ¡ na ST e FALSE em caso contrÃ¡rio.
  *
  */
-Bool contains(RedBlackST st, const void *key) {
+Bool contains (RedBlackST st, const void *key) {
     return get(st, key) != NULL;
 }
 
@@ -231,9 +260,34 @@ Bool contains(RedBlackST st, const void *key) {
  *  Se KEY nÃ£o estÃ¡ em ST, faz nada.
  *
  */
-void delete(RedBlackST st, const void *key) {
+
+
+    // delete the key-value pair with the minimum key rooted at h
+Node* deleteMin(Node *h) { 
+    if (h->left == NULL)
+        return NULL;
+
+    if (!isRed (h->left) && !isRed (h->left->left))
+        h = moveRedLeft (h);
+
+    h->left = deleteMin (h->left);
+    return balance (h);
 }
 
+
+void delete (RedBlackST st, const void *key) {
+    if (isEmpty ())
+        ERROR (BST underflow);
+
+        // if both children of root are black, set root to red
+    if (!isRed (st->root->left) && !isRed (st->root->right))
+        st->root->color = RED;
+
+    root = deleteMin (st->root);
+    if (!isEmpty ())
+        st->root->color = BLACK;
+        // assert check();
+}
 
 /*-----------------------------------------------------------*/
 /* 
@@ -244,11 +298,15 @@ void delete(RedBlackST st, const void *key) {
  *  RETORNA o nÃºmero de itens (= pares chave-valor) na ST.
  *
  */
-int size(RedBlackST st) {
-    return 0;
+int size (RedBlackST st) {
+    if (st->root == NULL)
+        return 0;
+    return st->root->size;
 }
 
 int sizeNode (Node *node) {
+    if (node == NULL)
+        return 0;
     return node->size;
 }
 
@@ -282,7 +340,8 @@ Bool isEmpty (RedBlackST st) {
  *  Se ST estÃ¡ vazia RETORNA NULL.
  *
  */
-void *min(RedBlackST st) {
+void *min (RedBlackST st) {
+
     return NULL;
 }
 
@@ -297,7 +356,7 @@ void *min(RedBlackST st) {
  *  Se ST estÃ¡ vazia RETORNA NULL.
  *
  */
-void *max(RedBlackST st) {
+void *max (RedBlackST st) {
     return NULL;
 }
 
@@ -312,7 +371,7 @@ void *max(RedBlackST st) {
  *  Se ST estÃ¡ vazia RETORNA NULL.
  *
  */
-int rank(RedBlackST st, const void *key) {
+int rank (RedBlackST st, const void *key) {
     return 0;
 } 
 
@@ -327,7 +386,7 @@ int rank(RedBlackST st, const void *key) {
  *  Se ST nÃ£o tem K+1 elementos RETORNA NULL.
  *
  */
-void *select(RedBlackST st, int k) {
+void *select (RedBlackST st, int k) {
     return NULL;
 }
 
@@ -342,7 +401,7 @@ void *select(RedBlackST st, int k) {
  *  Se ST estÃ¡ vazia, faz nada.
  *
  */
-void deleteMin(RedBlackST st) {
+void deleteMin (RedBlackST st) {
 }
 
 
@@ -356,7 +415,7 @@ void deleteMin(RedBlackST st) {
  *  Se ST estÃ¡ vazia, faz nada.
  *
  */
-void deleteMax(RedBlackST st) {
+void deleteMax (RedBlackST st) {
 }
 
 
@@ -374,7 +433,7 @@ void deleteMax(RedBlackST st) {
  *  indefinido. 
  *  
  */
-void * keys(RedBlackST st, Bool init) {
+void *keys (RedBlackST st, Bool init) {
     return NULL;
 }
 
@@ -396,7 +455,7 @@ void * keys(RedBlackST st, Bool init) {
  * Uma BST com apenas um nÃ³ tem altura zero.
  * 
  */
-int height(RedBlackST st) {
+int height (RedBlackST st) {
         return 0;
 }
 
@@ -413,14 +472,106 @@ int height(RedBlackST st) {
  * FALSE.
  * 
  */
-Bool check(RedBlackST st) {
+Bool check (RedBlackST st) {
     if (!isBST(st))            ERROR("check(): not in symmetric order");
-    if (!isSizeConsistent(st)) ERROR("check(): subtree counts not consistent");
-    if (!isRankConsistent(st)) ERROR("check(): ranks not consistent");
-    if (!is23(st))             ERROR("check(): not a 2-3 tree");
-    if (!isBalanced(st))       ERROR("check(): not balanced");
-    return isBST(st) && isSizeConsistent(st) && isRankConsistent(st) && is23(st) && isBalanced(st);
+    if (!isSizeConsistent (st)) ERROR("check(): subtree counts not consistent");
+    if (!isRankConsistent (st)) ERROR("check(): ranks not consistent");
+    if (!is23 (st))             ERROR("check(): not a 2-3 tree");
+    if (!isBalanced (st))       ERROR("check(): not balanced");
+    return isBST (st) && isSizeConsistent (st) && isRankConsistent (st) && is23 (st) && isBalanced (st);
 }
+
+/***************************************************************************
+*  Red-black tree helper functions.
+***************************************************************************/
+
+// is node x red; false if x is null
+static Bool isRed (Node *node) {
+    if (node == NULL)
+        return false;
+    return node->color == RED;
+}
+
+// make a left-leaning link lean to the right
+static Node *rotateRight(Node *h) {
+    // assert (h != null) && isRed(h->left);
+    Node *x = h->left;
+    h->left = x->right;
+    x->right = h;
+    x->color = x->right->color;
+    x->right->color = RED;
+    x->size = h->size;
+    h->size = size (h->left) + size (h->right) + 1;
+    return x;
+}
+
+// make a right-leaning link lean to the left
+static Node *rotateLeft(Node *h) {
+    // assert (h != null) && isRed(h->right);
+    Node *x = h->right;
+    h->right = x->left;
+    x->left = h;
+    x->color = x->left->color;
+    x->left->color = RED;
+    x->size = h->size;
+    h->size = size (h->left) + size (h->right) + 1;
+    return x;
+}
+
+// flip the colors of a node and its two children
+static void flipColors (Node *h) {
+    // h must have opposite color of its two children
+    // assert (h != null) && (h->left != null) && (h->right != null);
+    // assert (!isRed(h) &&  isRed(h->left) &&  isRed(h->right))
+    //    || (isRed(h)  && !isRed(h->left) && !isRed(h->right));
+    h->color = !h->color;
+    h->left->color = !h->left->color;
+    h->right->color = !h->right->color;
+}
+
+// Assuming that h is red and both h->left and h->left->left
+// are black, make h->left or one of its children red->
+static Node *moveRedLeft (Node *h) {
+    // assert (h != null);
+    // assert isRed(h) && !isRed(h->left) && !isRed(h->left->left);
+    flipColors (h);
+    if (isRed (h->right->left)) { 
+        h->right = rotateRight (h->right);
+        h = rotateLeft (h);
+        flipColors (h);
+    }
+    return h;
+}
+
+    // Assuming that h is red and both h->right and h->right->left
+    // are black, make h->right or one of its children red->
+static Node *moveRedRight(Node *h) {
+    // assert (h != null);
+    // assert isRed(h) && !isRed(h->right) && !isRed(h->right->left);
+    flipColors (h);
+    if (isRed (h->left->left)) { 
+        h = rotateRight (h);
+        flipColors (h);
+    }
+    return h;
+}
+
+// restore red-black tree invariant
+static Node *balance(Node *h) {
+    // assert (h != null);
+    if (isRed (h->right))                         h = rotateLeft (h);
+    if (isRed (h->left) && isRed (h->left->left)) h = rotateRight (h);
+    if (isRed (h->left) && isRed (h->right))      flipColors (h);
+
+    h->size = size (h->left) + size (h->right) + 1;
+    return h;
+}
+
+
+
+
+
+
 
 
 /* 
@@ -430,7 +581,7 @@ Bool check(RedBlackST st) {
  * RETORNA TRUE se a Ã¡rvore Ã© uma BST.
  * 
  */
-static Bool isBST(RedBlackST st) {
+static Bool isBST (RedBlackST st) {
     return FALSE;
 }
 
@@ -442,7 +593,7 @@ static Bool isBST(RedBlackST st) {
  *  vale que size(h) = 1 + size(h->left) + size(h->right) e 
  *  FALSE em caso contrÃ¡rio.
  */
-static Bool isSizeConsistent(RedBlackST st) {
+static Bool isSizeConsistent (RedBlackST st) {
     return FALSE;
 }
 
@@ -454,7 +605,7 @@ static Bool isSizeConsistent(RedBlackST st) {
  *  select() sÃ£o consistentes.
  */  
 /* check that ranks are consistent */
-static Bool isRankConsistent(RedBlackST st) {
+static Bool isRankConsistent (RedBlackST st) {
     return FALSE;
 }
 
@@ -465,7 +616,7 @@ static Bool isRankConsistent(RedBlackST st) {
  *  para a direta ou se ha dois links para esquerda seguidos RED 
  *  Em caso contrÃ¡rio RETORNA TRUE (= a ST representa uma Ã¡rvore 2-3). 
  */
-static Bool is23(RedBlackST st) {
+static Bool is23 (RedBlackST st) {
     return FALSE;
 }
 
@@ -476,6 +627,6 @@ static Bool is23(RedBlackST st) {
  *  RECEBE uma RedBlackST ST e RETORNA TRUE se st satisfaz
  *  balanceamento negro perfeiro.
  */ 
-static Bool isBalanced(RedBlackST st) {
+static Bool isBalanced (RedBlackST st) {
     return FALSE;
 }
