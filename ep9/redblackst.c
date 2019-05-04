@@ -42,7 +42,7 @@ struct node {
 };
 
 //"construtor"
-Node *newNode (void *key, void *val, Node *left, Node *right, Bool color, int size) {
+Node *newNode (const void *key, const void *val, Node *left, Node *right, Bool color, int size) {
     Node *tmp = emalloc (sizeof (Node));
     tmp->key = key;
     tmp->val = val;
@@ -61,7 +61,7 @@ Node *newNode (void *key, void *val, Node *left, Node *right, Bool color, int si
  */
 struct redBlackST {
     Node *root;
-    int (*compareTo)(const void *key1, const void *key2)
+    int (*compareTo)(const void *key1, const void *key2);
 };
 
 /*------------------------------------------------------------*/
@@ -94,14 +94,14 @@ static void flipColors (Node *h);
 
 // Assuming that h is red and both h.left and h.left.left
 // are black, make h.left or one of its children red.
-static Node moveRedLeft (Node *h);
+static Node *moveRedLeft (Node *h);
 
     // Assuming that h is red and both h.right and h.right.left
     // are black, make h.right or one of its children red.
-static Node moveRedRight(Node h);
+static Node *moveRedRight(Node *h);
 
 // restore red-black tree invariant
-static Node balance(Node h);
+static Node *balance(Node *h);
 
 /*---------------------------------------------------------------*/
 static Bool isBST(RedBlackST st);
@@ -135,11 +135,35 @@ static Bool isBalanced(RedBlackST st);
  *  chaves.
  * 
  */
-RedBlackST initST (int (*compar)(const void *key1, const void *key2)) {
+RedBlackST initST (int (*compar) (const void *key1, const void *key2)) {
     RedBlackST st = emalloc (sizeof (RedBlackST));
-    st.root = NULL;
-    st.compareTo = compar;
+    st->root = NULL;
+    st->compareTo = compar;
+    return st;
 }
+
+
+/*-----------------------------------------------------------*/
+/* 
+ *  SIZE(ST)
+ *
+ *  RECEBE uma tabela de sÃ­mbolos ST.
+ * 
+ *  RETORNA o nÃºmero de itens (= pares chave-valor) na ST.
+ *
+ */
+int size (RedBlackST st) {
+    if (st->root == NULL)
+        return 0;
+    return st->root->size;
+}
+
+int sizeNode (Node *node) {
+    if (node == NULL)
+        return 0;
+    return node->size;
+}
+
 
 /*-----------------------------------------------------------*/
 /*
@@ -209,7 +233,7 @@ void put (RedBlackST st, const void *key, size_t sizeKey, const void *val, size_
             return;
         }
 
-        st->root = auxPut (st->root, key, val);
+        st->root = auxPut (st, st->root, key, val);
         st->root->color = BLACK;
         // assert check();
     }
@@ -263,53 +287,31 @@ Bool contains (RedBlackST st, const void *key) {
 
 
     // delete the key-value pair with the minimum key rooted at h
-Node* deleteMin(Node *h) { 
+Node* deleteMinNode (Node *h) { 
     if (h->left == NULL)
         return NULL;
 
     if (!isRed (h->left) && !isRed (h->left->left))
         h = moveRedLeft (h);
 
-    h->left = deleteMin (h->left);
+    h->left = deleteMinNode (h->left);
     return balance (h);
 }
 
 
 void delete (RedBlackST st, const void *key) {
-    if (isEmpty ())
+    if (isEmpty (st))
         ERROR (BST underflow);
 
         // if both children of root are black, set root to red
     if (!isRed (st->root->left) && !isRed (st->root->right))
         st->root->color = RED;
 
-    root = deleteMin (st->root);
-    if (!isEmpty ())
+    st->root = deleteMinNode (st->root);
+    if (!isEmpty (st))
         st->root->color = BLACK;
         // assert check();
 }
-
-/*-----------------------------------------------------------*/
-/* 
- *  SIZE(ST)
- *
- *  RECEBE uma tabela de sÃ­mbolos ST.
- * 
- *  RETORNA o nÃºmero de itens (= pares chave-valor) na ST.
- *
- */
-int size (RedBlackST st) {
-    if (st->root == NULL)
-        return 0;
-    return st->root->size;
-}
-
-int sizeNode (Node *node) {
-    if (node == NULL)
-        return 0;
-    return node->size;
-}
-
 
 /*-----------------------------------------------------------*/
 /* 
@@ -401,7 +403,7 @@ void *select (RedBlackST st, int k) {
  *  Se ST estÃ¡ vazia, faz nada.
  *
  */
-void deleteMin (RedBlackST st) {
+void *deleteMin (RedBlackST st) {
 }
 
 
@@ -488,7 +490,7 @@ Bool check (RedBlackST st) {
 // is node x red; false if x is null
 static Bool isRed (Node *node) {
     if (node == NULL)
-        return false;
+        return FALSE;
     return node->color == RED;
 }
 
@@ -501,7 +503,7 @@ static Node *rotateRight(Node *h) {
     x->color = x->right->color;
     x->right->color = RED;
     x->size = h->size;
-    h->size = size (h->left) + size (h->right) + 1;
+    h->size = sizeNode (h->left) + sizeNode (h->right) + 1;
     return x;
 }
 
@@ -514,7 +516,7 @@ static Node *rotateLeft(Node *h) {
     x->color = x->left->color;
     x->left->color = RED;
     x->size = h->size;
-    h->size = size (h->left) + size (h->right) + 1;
+    h->size = sizeNode (h->left) + sizeNode (h->right) + 1;
     return x;
 }
 
@@ -563,7 +565,7 @@ static Node *balance(Node *h) {
     if (isRed (h->left) && isRed (h->left->left)) h = rotateRight (h);
     if (isRed (h->left) && isRed (h->right))      flipColors (h);
 
-    h->size = size (h->left) + size (h->right) + 1;
+    h->size = sizeNode (h->left) + sizeNode (h->right) + 1;
     return h;
 }
 
