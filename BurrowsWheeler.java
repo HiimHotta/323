@@ -40,22 +40,25 @@ public class BurrowsWheeler {
         int[] next = new int[t.length];
         Queue <Integer> queue[] = new Queue[alphabetL];
 
-            //read occurrences
+        //read occurrences
         for (int i = 0; i < t.length - 1; i++) {
             if (queue[t[i]] == null)
                 queue[t[i]] = new Queue <Integer> ();
             queue[t[i]].enqueue (i);
         }
 
-            //create next
+        //create next
         int aux = 0;
         for (int i = 0; i < alphabetL; i++) {
             if (queue[i] != null) {
-                while (!queue[i].isEmpty ())
-                next[aux++] = queue[i].dequeue ();
+                while (!queue[i].isEmpty ()) {
+                    next[aux++] = queue[i].dequeue ();
+                    StdOut.println (next[aux - 1]);
+                }
             }
         }
 
+        aux = next[first];
         for (int i = 0; i < t.length; i++) {
             BinaryStdOut.write (t[aux]);
             aux = next [aux];
