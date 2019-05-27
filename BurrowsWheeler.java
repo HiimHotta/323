@@ -3,6 +3,7 @@ import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Quick;
+import edu.princeton.cs.algs4.StdOut;
 
 public class BurrowsWheeler {
 
@@ -18,8 +19,10 @@ public class BurrowsWheeler {
 
             //first
             for (int i = 0; i < t.length; i++) {
-                if (circular.index (i) == 0) 
+                if (circular.index (i) == 0) {
+                    StdOut.println (i);
                     BinaryStdOut.write (i);
+                }
             }
 
             //t[]
@@ -43,7 +46,7 @@ public class BurrowsWheeler {
 
             //read occurrences
             for (int i = 0; i < t.length - 1; i++) {
-                queue[t[i]] = new Queue ();
+                queue[t[i]] = new Queue <Integer> ();
                 queue[t[i]].enqueue (i);
             }
 
@@ -58,6 +61,7 @@ public class BurrowsWheeler {
 
             aux = first;
             for (int i = 1; i < t.length; i++) {
+
                 BinaryStdOut.write (t[aux]);
                 aux = next [aux];
             }
