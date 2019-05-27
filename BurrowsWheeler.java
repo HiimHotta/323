@@ -17,14 +17,14 @@ public class BurrowsWheeler {
     	    CircularSuffixArray circular = new CircularSuffixArray (s);
 
             //first
-            for (int i = 0; i < s.length; i++) {
-                if (c.index (i) == 0)
+            for (int i = 0; i < t.length; i++) {
+                if (circular.index (i) == 0)
                     BinaryStdOut.write (i);
             }
 
             //t[]
-            for (int i = 0; i < s.length; i++) {
-                BinaryStdOut.write (t[(s.length - 1 + circular.index (i)) % s.length]);
+            for (int i = 0; i < t.length; i++) {
+                BinaryStdOut.write (t[(t.length - 1 + circular.index (i)) % t.length]);
             }
         }
         BinaryStdOut.flush ();
@@ -38,11 +38,11 @@ public class BurrowsWheeler {
             int first = BinaryStdIn.readInt ();
             String s = BinaryStdIn.readString ();
             char[] t = s.toCharArray ();
-            int[] next = new int[s.length];
+            int[] next = new int[t.length];
             Queue[] queue = new Queue[alphabetL];
 
             //read occurrences
-            for (int i = 0; i < s.length - 1; i++) 
+            for (int i = 0; i < t.length - 1; i++) 
                 queue[t[i]].enqueue (i);
 
             //create next
@@ -53,7 +53,7 @@ public class BurrowsWheeler {
             }
 
             aux = first;
-            for (int i = 1; i < n; i++) {
+            for (int i = 1; i < t.length; i++) {
                 BinaryStdOut.write (t[aux]);
                 aux = next [aux];
             }
