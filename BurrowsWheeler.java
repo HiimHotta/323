@@ -18,7 +18,7 @@ public class BurrowsWheeler {
 
             //first
             for (int i = 0; i < t.length; i++) {
-                if (circular.index (i) == 0)
+                if (circular.index (i) == 0) 
                     BinaryStdOut.write (i);
             }
 
@@ -39,17 +39,21 @@ public class BurrowsWheeler {
             String s = BinaryStdIn.readString ();
             char[] t = s.toCharArray ();
             int[] next = new int[t.length];
-            Queue <int> [] queue = new Queue <int> [alphabetL];
+            Queue <Integer> queue[] = new Queue[alphabetL];
 
             //read occurrences
-            for (int i = 0; i < t.length - 1; i++) 
+            for (int i = 0; i < t.length - 1; i++) {
+                queue[t[i]] = new Queue ();
                 queue[t[i]].enqueue (i);
+            }
 
             //create next
             int aux = 0;
             for (int i = 0; i < alphabetL; i++) {
-                while (!queue[i].isEmpty ())
-                     next[aux++] = queue[i].dequeue ();
+                if (queue[i] != null) {
+                    while (!queue[i].isEmpty ())
+                        next[aux++] = queue[i].dequeue ();
+                }
             }
 
             aux = first;
