@@ -17,21 +17,24 @@ public class BurrowsWheeler {
             char[] t = s.toCharArray ();
     	    CircularSuffixArray circular = new CircularSuffixArray (s);
 
+
+            BinaryStdOut.write (3);
+            /*
             //first
             for (int i = 0; i < t.length; i++) {
                 if (circular.index (i) == 0) {
                     StdOut.println (i);
                     BinaryStdOut.write (i);
+                    break;
                 }
             }
-
+*/
             //t[]
             for (int i = 0; i < t.length; i++) {
                 BinaryStdOut.write (t[(t.length - 1 + circular.index (i)) % t.length]);
             }
         }
         BinaryStdOut.flush ();
-        BinaryStdOut.close ();
     }
 
     // apply Burrows-Wheeler inverse transform,
@@ -68,7 +71,6 @@ public class BurrowsWheeler {
         }
         
         BinaryStdOut.flush ();
-        BinaryStdOut.close ();
     }
 
     // if args[0] is "-", apply Burrows-Wheeler transform
