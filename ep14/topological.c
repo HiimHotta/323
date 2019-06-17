@@ -67,11 +67,12 @@
  * 
  */
 struct topological {
+    Digraph DG;
     int* rank;
-    Bool has_Cycle; //hasCycle
-    Bool is_Dag;    //isDag
+    Bool is_Dag    = TRUE;    //isDag
     int *preOrder, *postOrder, *Order; //vector to show pre and post order
     int iPre     , iPost     , iOrder;
+    Bag Cycle;
 };
 
 /*------------------------------------------------------------*/
@@ -92,6 +93,92 @@ void validateTopological (Topological T) {
     }
 }
 
+// DIRECTED CYCLE
+
+// certify that digraph has a directed cycle if it reports one
+Bool check(Topological T) {
+    if (T->has_Cycle == TRUE) {
+        // verify cycle
+        int first = -1, last = -1;
+        for (int v = itens (T->Cycle, TRUE); v != -1; v = itens (T->Cycle, FALSE)) {
+            if (first == -1) 
+                first = v;
+
+            last = v;
+        }
+        if (first != last) {
+            System.err.printf ("cycle begins with %d and ends with %d\n", first, last);
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+void dfs (Topological T, Bool* marked, Bool* onBag, int* edgeTo, int v) {
+    onStack[v] = TRUE;
+    marked[v]  = TRUE;
+    for (int w = adj (T->DG, v, TRUE); w != -1; w = adj (T->DG, v, FALSE)) {
+
+        // short circuit if directed cycle found
+        if (T->Cycle != NULL) 
+            return;
+
+        // found new vertex, so recur
+        else if (!marked[w]) {
+            edgeTo[w] = v;
+            dfs (G, marked, onBag, edgeTo, w);
+        }
+
+        // trace back directed cycle
+        else if (onStack[w]) {
+            T->Cycle = newBag ();
+            for (int x = v; x != w; x = edgeTo[x]) {
+                add (T->Cycle, x);
+            }
+            add (T->Cycle, w);
+            add (T->Cycle, v);
+            if (check (T));
+        }
+    }
+    onStack[v] = FALSE;
+}
+
+Bool checkCycle (Topological T) {
+    Bool* marked = emalloc (vDigraph (T->DG) * sizeof (Bool));
+    Bool* onBag  = emalloc (vDigraph (T->DG) * sizeof (Bool));
+    int*  edgeTo = emalloc (vDigraph (T->DG) * sizeof (int));
+
+    for (int v = 0; v < vDigraph (T->DG); v++) {
+        if (!marked[v] && cycle == NULL) 
+            dfs (T, marked, onBag, edgeTo, v);
+    }
+
+    free (marked);
+    free (onBag);
+    free (edgeTo);
+
+    if (T->Cycle == NULL)
+        return FALSE;
+
+    return TRUE;
+}
+
+// DEPTH FIRST ORDER
+
+
+Bool checkOrder (Topological T) {
+    pre    = new int[G.V()];
+    post   = new int[G.V()];
+    postorder = new Queue<Integer>();
+    preorder  = new Queue<Integer>();
+    marked    = new boolean[G.V()];
+    for (int v = 0; v < G.V(); v++) {
+        if (!marked[v])
+            dfs(G, v);
+    }
+
+}
+
 /*-----------------------------------------------------------*/
 
 /*-----------------------------------------------------------*/
@@ -106,9 +193,13 @@ Topological newTopological (Digraph G) {
     validateDigraph (G);
 
     Topological aux = emalloc (sizeof (struct topological));
-    rank            = emalloc (vDigraph (G) * sizeof (int));
-    preOrder        = emalloc (vDigraph (G) * sizeof (int));
-    postOrder       = emalloc (vDigraph (G) * sizeof (int));
+
+    aux->DG         = G;
+    if (checkCycle (aux)) {
+    }
+    aux->rank            = emalloc (vDigraph (G) * sizeof (int));
+    aux->preOrder        = emalloc (vDigraph (G) * sizeof (int));
+    aux->postOrder       = emalloc (vDigraph (G) * sizeof (int));
     return NULL;
 }
 
@@ -145,7 +236,7 @@ void freeTopological (Topological ts) {
  */
 Bool hasCycle (Topological ts) {
     validateTopological (ts);
-    return has_Cycle;
+    return Cycle != NULL;
 }
 
 /*-----------------------------------------------------------*/
@@ -159,7 +250,7 @@ Bool hasCycle (Topological ts) {
  */
 Bool isDag (Topological ts) {
     validateTopological (ts);
-    return is_Dag;
+    return Order != NULL;
 }
 
 /*-----------------------------------------------------------*/
@@ -289,4 +380,3 @@ vertex cycle (Topological ts, Bool init) {
  * Implementaçao de funções administrativas: têm o modificador 
  * static.
  */
-
